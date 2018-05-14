@@ -30,9 +30,6 @@ app.use( function( req, res, next ) {
 } );
 
 app.get( '/', auth.isLoggedIn, function( req, res ) {
-	res.locals.breadcrumb.push( {
-		name: "Update"
-	} );
 	res.render( 'index', { user: req.user } );
 } );
 
