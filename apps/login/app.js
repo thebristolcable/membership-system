@@ -7,6 +7,10 @@ const { wrapAsync } = require ( __js + '/utils' );
 const app = express();
 var app_config = {};
 
+function checkNextUrl(url) {
+	return url && /^\/[^/]/.test(url);
+}
+
 app.set( 'views', __dirname + '/views' );
 
 app.use( function( req, res, next ) {
@@ -20,6 +24,9 @@ app.get( '/' , function( req, res ) {
 		req.flash( 'warning', 'already-logged-in' );
 		res.redirect( '/profile' );
 	} else {
+		if (checkNextUrl(req.query.next)) {
+			req.session.requestedUrl = req.query.next;
+		}
 		res.render( 'index' );
 	}
 } );
@@ -37,7 +44,7 @@ app.get( '/:code', wrapAsync( async function( req, res ) {
 			if ( loginError ) {
 				throw loginError;
 			}
-			res.redirect('/profile');
+			res.redirect(checkNextUrl(req.query.next) ? req.query.next : '/profile');
 		});
 	} else {
 		req.flash('error', 'login-code-invalid');
