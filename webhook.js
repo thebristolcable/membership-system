@@ -103,18 +103,7 @@ async function handlePaymentResourceEvent( event ) {
 		await Payments.findOne( { payment_id: gcPayment.id } ) ||
 		await createPayment( gcPayment );
 
-	switch( event.action ) {
-	case 'confirmed': // Collected
-		await confirmPayment( payment );
-	case 'created': // Pending
-	case 'customer_approval_granted': // Customer has approved payment
-	case 'submitted': // Processing
-	case 'cancelled': // Cancelled
-	case 'failed': // Failed
-	case 'paid_out': // Received
-		await updatePayment( gcPayment, payment );
-		break;
-	}
+	await updatePayment( gcPayment, payment );
 }
 
 async function createPayment( gcPayment ) {
@@ -149,6 +138,17 @@ async function createPayment( gcPayment ) {
 
 }
 
+async function getPaymentExpiryDate( payment ) {
+	let expiryDate = moment.utc(payment.charge_date);
+
+	if ( ['confirmed', 'paid_out'].indexOf( payment.status ) > -1 ) {
+		const subscription = await gocardless.subscriptions.get(payment.subscription_id);
+		expiryDate.add(utils.getSubscriptionDuration(subscription));
+	}
+
+	return expiryDate.add(config.gracePeriod);
+}
+
 async function updatePayment( gcPayment, payment ) {
 	await payment.update( { $set: utils.createPayment(gcPayment) } );
 
@@ -157,28 +157,35 @@ async function updatePayment( gcPayment, payment ) {
 		action: 'update-payment',
 		payment: payment
 	} );
-}
 
-async function confirmPayment( payment ) {
 	if ( payment.member && payment.subscription_id ) {
-		const subscription = await gocardless.subscriptions.get(payment.subscription_id);
-		const expiryDate = moment.utc(payment.charge_date)
-			.add(utils.getSubscriptionDuration(subscription))
-			.add(config.gracePeriod);
+		const expiryDate = getPaymentExpiryDate( payment );
 
 		const member = await Members.findOne( { _id: payment.member } );
 		if (member.memberPermission) {
-			member.memberPermission.date_expires = expiryDate.toDate();
-			await member.save();
+			if (member.memberPermission.date_expires < expiryDate.toDate()) {
+				member.memberPermission.date_expires = expiryDate.toDate();
+				await member.save();
+				log.info( {
+					app: 'webhook',
+					action: 'extend-membership',
+					date: expiryDate,
+					sensitive: {
+						member: member._id
+					}
+				} );
+			} else {
+				log.error( {
+					app: 'webhook',
+					action: 'extend-membership',
+					date: expiryDate,
+					error: 'Membership expires after payment',
+					sensitive: {
+						member: member._id
+					}
+				} );
+			}
 
-			log.info( {
-				app: 'webhook',
-				action: 'extend-membership',
-				until: member.memberPermission.date_expires,
-				sensitive: {
-					member: member._id
-				}
-			} );
 		} else {
 			log.error( {
 				app: 'webhook',
