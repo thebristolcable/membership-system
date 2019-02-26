@@ -107,6 +107,7 @@ async function handlePaymentResourceEvent( event ) {
 	case 'confirmed': // Collected
 		await confirmPayment( payment );
 	case 'created': // Pending
+	case 'customer_approval_granted': // Customer has approved payment
 	case 'submitted': // Processing
 	case 'cancelled': // Cancelled
 	case 'failed': // Failed
