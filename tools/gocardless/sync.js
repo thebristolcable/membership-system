@@ -35,6 +35,14 @@ function processCustomers(customers) {
 	return validCustomers;
 }
 
+function isValueEqual(a, b) {
+	if (a instanceof Date) {
+		return Math.floor(a / 1000) === Math.floor(b / 1000);
+	} else {
+		return _.isEqual(a, b);
+	}
+}
+
 async function syncCustomers(dryRun, validCustomers) {
 	console.log('# Syncing with database');
 
@@ -71,7 +79,7 @@ async function syncCustomers(dryRun, validCustomers) {
 				let oldValue = _.get(member, key);
 				if (oldValue && oldValue.toObject) oldValue = oldValue.toObject();
 
-				if (!_.isEqual(oldValue, value)) {
+				if (!_.isEqualWith(oldValue, value, isValueEqual)) {
 					console.log('Updating', key);
 					console.log(JSON.stringify(oldValue), '->', JSON.stringify(value));
 
