@@ -47,7 +47,8 @@
     "request": "^2.88.0",
     "tar-stream": "^2.0.0",
     "thirty-two": "^1.0.2",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "snyk": "^1.189.0"
   },
   "scripts": {
     "start": "npm run build && nodemon --exec \"npm run lint && concurrently -c red,green,blue npm:app npm:webhook npm:watch\"",
@@ -58,7 +59,9 @@
     "lint": "eslint apps/ src/ test/ webhook.js",
     "watch": "gulp watch",
     "build": "gulp build",
-    "test": "ava"
+    "test": "ava",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "devDependencies": {
     "autoprefixer": "^9.4.7",
@@ -81,5 +84,6 @@
   "browserslist": [
     "last 1 versions",
     "> 1%"
-  ]
+  ],
+  "snyk": true
 }
