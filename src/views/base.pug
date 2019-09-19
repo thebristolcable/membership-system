@@ -46,7 +46,6 @@ html
 				title #{ Options( 'software-name' ) } &mdash; #{ Options( 'organisation' ) }
 		block head
 			block css
-				link( rel="stylesheet", href="/static/css/theme.min.css" )
 				link( rel="stylesheet", href="/static/css/style.css?v=" + git )
 	body( class=( dev ? 'dev' : '' ) )
 		script.
@@ -57,10 +56,10 @@ html
 				header.header
 					.container
 						.row
-							.col-xs-6
+							.col-6
 								a( href="https://thebristolcable.org/" )
 									img( src="/static/svg/logo.svg" ).header-logo
-							.col-xs-6.text-right
+							.col-6.text-right
 								if isLoggedIn
 									a( href="/logout" ) Logout
 								else
