@@ -1,3 +1,22 @@
+$enable-shadows: true;
+
+$black: #31393C;
+$blue: #048BA8;
+$green: #4DA167;
+
+$font-family-sans-serif: "Source Sans Pro", sans-serif;
+$font-size-base:              18px;
+
+$headings-font-family: "Roboto", sans-serif;
+$headings-font-weight: 500;
+
+$btn-font-family: $headings-font-family;
+$btn-font-weight: 600;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+@import "fonts";
+
 $bp-join-form: 600px;
 
 $c-blue: #048BA8;
@@ -11,7 +30,15 @@ $c-black: #31393C;
 
 @import "mixins";
 
-@import "fonts";
+.btn {
+	&,
+	&:hover,
+	&:active,
+	&:focus {
+		color: white;
+	}
+}
+
 @import "general";
 
 @import "components/gifts";
