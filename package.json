@@ -47,7 +47,7 @@
     "passport-local": "^1.0.0",
     "passport-totp": "0.0.2",
     "pug": "^2.0.3",
-    "query-string": "^6.2.0",
+    "query-string": "^6.12.0",
     "request": "^2.88.0",
     "stripe": "^7.9.1",
     "tar-stream": "^2.0.0",
