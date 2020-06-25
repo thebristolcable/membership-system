@@ -19,7 +19,7 @@
     "axios": "^0.18.1",
     "body-parser": "^1.18.3",
     "bootstrap-sass": "^3.4.1",
-    "bunyan": "^1.8.12",
+    "bunyan": "^1.8.13",
     "bunyan-middleware": "^0.8.0",
     "bunyan-slack": "0.0.10",
     "chance": "^1.0.18",
