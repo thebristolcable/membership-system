@@ -43,7 +43,7 @@
     "mandrill-api": "^1.0.45",
     "moment": "^2.27.0",
     "mongodb-extended-json": "^1.11.0",
-    "mongoose": "^5.9.21",
+    "mongoose": "^5.9.22",
     "notp": "^2.0.3",
     "papaparse": "^5.2.0",
     "passport": "^0.4.1",
