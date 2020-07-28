@@ -52,7 +52,7 @@
     "pug": "^3.0.0",
     "query-string": "^6.13.1",
     "request": "^2.88.2",
-    "stripe": "^8.68.0",
+    "stripe": "^8.69.0",
     "tar-stream": "^2.1.2",
     "thirty-two": "^1.0.2",
     "uuid": "^8.2.0"
