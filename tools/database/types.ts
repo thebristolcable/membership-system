@@ -120,7 +120,6 @@ const models: ModelExporter[] = [
 	{ model: db.PollAnswers, properties: pollAnswers },
 	{ model: db.Projects , properties: projects },
 	{ model: db.ProjectMembers, properties: projectMembers },
-	{ model: db.TransactionalEmails },
 	{ model: db.SpecialUrlGroups },
 	{ model: db.SpecialUrls, properties: specialUrls }
 ];
