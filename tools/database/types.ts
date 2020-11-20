@@ -101,6 +101,12 @@ const projectMembers: Properties = {
 	})
 };
 
+const specialUrls: Properties = {
+	email: () => chance.email(),
+	firstname: () => chance.first(),
+	lastname: () => chance.last(),
+};
+
 const models: ModelExporter[] = [
 	{ model: db.Exports },
 	{ model: db.Options },
@@ -113,7 +119,10 @@ const models: ModelExporter[] = [
 	{ model: db.Polls },
 	{ model: db.PollAnswers, properties: pollAnswers },
 	{ model: db.Projects , properties: projects },
-	{ model: db.ProjectMembers, properties: projectMembers }
+	{ model: db.ProjectMembers, properties: projectMembers },
+	{ model: db.TransactionalEmails },
+	{ model: db.SpecialUrlGroups },
+	{ model: db.SpecialUrls, properties: specialUrls }
 ];
 
 export default models;
