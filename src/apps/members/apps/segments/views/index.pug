@@ -1,0 +1,9 @@
+extend /views/notrack.pug
+
+block prepend title
+	- title = app.title
+
+block contents
+	.row
+		.col-md-12
+			+page_header('Segments')
