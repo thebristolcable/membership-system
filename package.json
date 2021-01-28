@@ -38,7 +38,7 @@
     "flat": "^5.0.2",
     "gocardless-nodejs": "^1.4.1",
     "gunzip-maybe": "^1.4.2",
-    "helmet": "^4.1.1",
+    "helmet": "^4.3.1",
     "hummus": "^1.0.110",
     "inquirer": "^7.3.3",
     "lodash": "^4.17.20",
