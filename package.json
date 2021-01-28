@@ -56,7 +56,7 @@
     "query-string": "^6.13.5",
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.2",
-    "stripe": "^8.108.0",
+    "stripe": "^8.129.0",
     "tar-stream": "^2.1.4",
     "thirty-two": "github:chrisumbel/thirty-two#704e9e014ff36e9f40bdf60818be647266ebc413",
     "typeorm": "^0.2.29",
