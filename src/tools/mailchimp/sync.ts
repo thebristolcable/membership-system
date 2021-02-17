@@ -9,12 +9,15 @@ import tar from 'tar-stream';
 import { ConnectionOptions } from 'typeorm';
 
 import * as db from '@core/database';
+import { log as mainLogger } from '@core/logging';
 import mailchimp from '@core/mailchimp';
 import { cleanEmailAddress } from '@core/utils';
 
 import { Member } from '@models/members';
 
 import config from '@config';
+
+const log = mainLogger.child({app: 'mailchimp-sync'});
 
 interface DeleteOperation {
 	method: 'DELETE'
@@ -83,10 +86,7 @@ async function fetchMembers(startDate: string|undefined, endDate: string|undefin
 		$lte: moment(endDate).toDate()
 	};
 
-	console.log('Start date:', dateFilter.$gte.toISOString());
-	console.log('End date:', dateFilter.$lte.toISOString());
-
-	console.log('# Fetching members');
+	log.info({action: 'fetching-members', data: {dateFilter}});
 
 	const permission = await db.Permissions.findOne({slug: 'member'});
 	const members = await db.Members.find({
@@ -99,7 +99,8 @@ async function fetchMembers(startDate: string|undefined, endDate: string|undefin
 		}}
 	});
 
-	console.log(`Got ${members.length} members`);
+	log.info({action: 'got-members', data: {count: members.length}});
+
 	members.forEach(member => {
 		console.log(member.isActiveMember ? 'U' : 'D', member.email);
 	});
@@ -208,8 +209,11 @@ db.connect(config.mongo, config.db as ConnectionOptions).then(async () => {
 		if (!isTest) {
 			await processMembers(members);
 		}
-	} catch (err) {
-		console.error(err);
+	} catch (error) {
+		log.error({
+			action: 'main-error',
+			error
+		});
 	}
 	await db.close();
 });

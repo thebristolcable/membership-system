@@ -58,8 +58,12 @@ async function main(date: string|undefined) {
 db.connect(config.mongo, config.db as ConnectionOptions).then(async () => {
 	try {
 		await main(process.argv[2]);
-	} catch (err) {
-		console.error(err);
+	} catch (error) {
+		log.error({
+			app: 'start-gifts',
+			action: 'main-error',
+			error
+		});
 	}
 	await db.close();
 });
