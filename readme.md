@@ -1,3 +1,8 @@
+# !!! Project has moved !!!
+
+This repository is no longer in use, please see https://github.com/thebristolcable/beabee/ instead. The information below might no longer be relevant.
+
+
 # Membership System
 
 This is The Bristol Cable's membership system. We are actively looking for
